@@ -1,7 +1,7 @@
 PyHAL
 =====
 
-HAL-9000 Speech Simulator (Temporarily Mac OSX Dependent) [created by Jordan Facibene]
+HAL-9000 Speech Simulator (Temporarily Mac OS X Dependent) [created by Jordan Facibene]
 
 Required External Modules
 =====
@@ -17,8 +17,12 @@ For example:
 - User then says "Ok, I'll go through the emergency airlock"
 - HAL responds "Without your space helmet Dave? Your going to find that rather difficult"
 
-Information
+General Requirements
+=====
+- Mac OS X 10.6+ (as of current state)
+- Microphone
+- Internet Connection
+- 
+Other Information
 =====
 - Written in Python 2.7.8
-- Requires an internet connection to run
-- OSX dependency (Apple Scripts) is temporary
