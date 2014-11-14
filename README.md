@@ -22,7 +22,7 @@ General Requirements
 - Mac OS X 10.6+ (as of current state)
 - Microphone
 - Internet Connection
-- 
+
 Other Information
 =====
 - Written in Python 2.7.8
