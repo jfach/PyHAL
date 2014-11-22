@@ -27,3 +27,11 @@ General Requirements
 Other Information
 =====
 - Written in Python 2.7.8
+
+Instructions
+=====
+1. Download the project, keeping all directories relative.
+2. Install Speech_Recognition, PyAudio, and FLAC.
+3. Navigate to the directory containing hal3.py via the command line.
+4. Type python hal3.py and hit enter.
+5. Prosper.
