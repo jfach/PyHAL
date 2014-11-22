@@ -6,6 +6,8 @@ import speech_recognition as sr
 import os
 from subprocess import Popen, PIPE
 
+version = "0.4"
+osa = ""
 r = sr.Recognizer()
 
 def play(filename):
@@ -41,27 +43,84 @@ def runme(scpt, args=[]):
      stdout, stderr = p.communicate(scpt)
      return stdout
 
+def show_about():
+	print ""
+	print "    PyHAL-9000 %r" % version
+	print "-------------------------------"
+	print "written by Jordan Facibene\n"
+	print "Mini Changelog:\n"
+	print "- 0.1: Added Google Speech Recognition"
+	print "- 0.1.1: Added Apple Scripts For HAL 2001 Voice"
+	print "- 0.1.2: Added PyAudio Support For Authentic HAL Playback"
+	print "- 0.1.2.1: Added Really Bad Handling For LookupError"
+	print "- 0.2: Implemented Better Handling For LookupError"
+	print "- 0.2.1: Code Runs Faster (fixed bad code)"
+	print "- 0.2.1.1: RandInt for Variety. Added/edited phrases"
+	print "- 0.3: Removed Mac OS X Dependency. Added More Audio."
+	print "- 0.4: Added Menu\n"
+	start()
 
+def show_help():
+	print ""
+	print "Instructions:"
+	print "-------------\n"
+	print "1. Talk to HAL using your voice."
+	print "2. When you see 'Listening...', thats your cue to start speaking."
+	print "3. To exit the program, simply say 'bye' or 'exit'.\n"
+	start()
 
+def show_setup():
+	print "Turn on Apple Script Voices? (Mac OS X Only)"
+	print "type ON or OFF"
+	global osa
+	osa = raw_input("> ")
+	print ""
+	if osa.lower() == "on":
+		print "Apple Script Voices ON"
+	else:
+		if osa.lower() != "off":
+			print "Invalid entry.\n"
+			show_setup()
+		else:
+			print "Apple Script Voices OFF\n"
+	print ""
+	start()
 
-print "<=====> PyHAL-9000 v0.2.1.1 <======>"
+def start():
+	print('[A]bout | [H]elp | [Q]uit | [R]un | [S]etup')
+	start_sequence = raw_input('> ')
+	print "\n"
+	if start_sequence.lower() == 'r':
+		print ""
+	elif start_sequence.lower() == 'h':
+		show_help()
+	elif start_sequence.lower() == 'q':
+		sys.exit(0)
+	elif start_sequence.lower() == 's':
+		show_setup()
+	elif start_sequence.lower() == 'a':
+		show_about()
+	else:
+		print "Invalid Selection!\a"
+		print "(Enter A, H, Q, R, or S)\n"
+		start()
+
+print "<=====> PyHAL-9000 %r <======>" % version
 play("audio/moment.wav")
-print "Mini Changelog:\n"
-print "- 0.1: Added Google Speech Recognition"
-print "- 0.1.1: Added Apple Scripts For HAL 2001 Voice"
-print "- 0.1.2: Added PyAudio Support For Authentic HAL Playback"
-print "- 0.1.2.1: Added Really Bad Handling For LookupError"
-print "- 0.2: Implemented Better Handling For LookupError"
-print "- 0.2.1: Code Runs Faster (fixed a design flaw where audio was parsed unnecessarily)"
-print "- 0.2.1.1: Began using RandInt to add variety. Added and edited phrases\n"
-print "- 0.3: Removed Mac OS X Dependency. Added More Audio.\n"
+print ""
 raw_input('Press <ENTER> to continue')
+print
+
+start()
+
+
 
 
 user_log = []
 
 print "HAL-9000: Hello, Dave."
-#runme("""say "Hello Dave." using "Alex" speaking rate 150 modulation 25 pitch 38""")
+if osa.lower() == "on":
+	runme("""say "Hello Dave." using "Alex" speaking rate 150 modulation 25 pitch 38""")
 print "Listening..."
 while True:
 	try:
@@ -139,7 +198,7 @@ while True:
 				break # add listen()
 
 
-		elif "bye" in response or "exit" in response:
+		elif "bye" in response or "exit" in response or "by" in response:
 			print ("Dave: " + response)
 			break
 		elif "sing" in response: # replace with hals song
@@ -163,14 +222,14 @@ while True:
 
 		else: # if any of the conditions above are not met, except if speech is unintelligable
 			print ("Dave: " + response)
-			print "HAL-9000: Im sorry Dave. I didn't catch that. What did you say?"
+			print "HAL-9000: Im sorry Dave. I didn't catch that. What did you say?\a"
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
 				response = r.recognize(answer)
 			print "Analyzing Response..."
 	except LookupError:
-		print "Could not understand audio, try again..."
+		print "Could not understand audio, try again...\a"
 		print "Listening..."
 		continue
 
