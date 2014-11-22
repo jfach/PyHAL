@@ -1,3 +1,4 @@
+import random
 import pyaudio
 import wave
 import sys
@@ -23,7 +24,7 @@ def play(filename):
 	#read data
 	data = f.readframes(chunk)
 
-	#paly stream
+	#play stream
 	while data != '':
     		stream.write(data)
     		data = f.readframes(chunk)
@@ -41,11 +42,9 @@ def runme(scpt, args=[]):
      return stdout
 
 
-#def listen(): # will this work???
-	#with sr.Microphone() as source:
-	#	answer = r.listen(source)
 
-print "<=====> PyHAL-9000 v0.2.1 <======>"
+
+print "<=====> PyHAL-9000 v0.2.1.1 <======>"
 play("audio/moment.wav")
 print "Mini Changelog:\n"
 print "- 0.1: Added Google Speech Recognition"
@@ -53,14 +52,16 @@ print "- 0.1.1: Added Apple Scripts For HAL 2001 Voice"
 print "- 0.1.2: Added PyAudio Support For Authentic HAL Playback"
 print "- 0.1.2.1: Added Really Bad Handling For LookupError"
 print "- 0.2: Implemented Better Handling For LookupError"
-print "- 0.2.1: Code Runs Faster (fixed a design flaw where audio was parsed unnecessarily)\n"
+print "- 0.2.1: Code Runs Faster (fixed a design flaw where audio was parsed unnecessarily)"
+print "- 0.2.1.1: Began using RandInt to add variety. Added and edited phrases\n"
+print "- 0.3: Removed Mac OS X Dependency. Added More Audio.\n"
 raw_input('Press <ENTER> to continue')
 
 
 user_log = []
 
 print "HAL-9000: Hello, Dave."
-runme("""say "Hello Dave." using "Alex" speaking rate 150 modulation 25 pitch 38""")
+#runme("""say "Hello Dave." using "Alex" speaking rate 150 modulation 25 pitch 38""")
 print "Listening..."
 while True:
 	try:
@@ -82,7 +83,7 @@ while True:
 			if "emergency airlock" in response or "air locks" in response:
 				print ("Dave: " + response)
 				print "HAL-9000: Without your space helmet, Dave? You're going to find that rather difficult."
-				runme("""say "Without your space helmet, Dave? You're going to find that rather difficult." using "Alex" speaking rate 160 modulation 20 pitch 38""")
+				play("audio/helmet.wav")
 				print "Listening..."
 				with sr.Microphone() as source:
 					answer = r.listen(source)
@@ -102,38 +103,33 @@ while True:
 				print "HAL-9000: ..."
 				break
 
-		elif "hello" in response or "hi" in response: # this code is bad
-			print ("Dave: " + response)
-			print "HAL-9000: Hello again, Dave."
-			runme("""say "Hello again, Dave." using "Alex" speaking rate 160 modulation 20 pitch 38""")
-			print "Listening..."
-			with sr.Microphone() as source:
-				answer = r.listen(source)
-				response = r.recognize(answer)
-			print "Analyzing Response..."
 		elif "how are you" in response:
-
+			coin_flip = random.randint(1,2)
 			print ("Dave: " + response)
-			print "HAL-9000: Good evening Dave. Everythings running smoothly. And you?"
-			play("audio/hihal.wav")
+			if coin_flip == 1:
+				print "HAL-9000: Good evening Dave. Everythings running smoothly. And you?"
+				play("audio/hihal.wav")
+			else:
+				print "HAL-9000: I'm completely operational and all my circuits are functioning perfectly. And you?"
+				play("audio/operational2.wav")
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
 				response = r.recognize(answer)
 			print "Analyzing Response..."
-			if "am good" in response or "am well" in response:
-				print ("Dave: " + response)
-				print "HAL-9000: I am glad to hear that you are doing well, Dave."
-				runme("""say "I am glad to hear that you are doing well, Dave." using "Alex" speaking rate 185 modulation 15 pitch 37""")
-				print "Listening..."
-				with sr.Microphone() as source:
-					answer = r.listen(source)
-					response = r.recognize(answer)
-				print "Analyzing Response..."
-			elif "not good" in response or "bad" in response or "not well" in response:
+			# if "am good" in response or "am well" in response:
+# 				print ("Dave: " + response)
+# 				print "HAL-9000: I am glad to hear that you are doing well, Dave."
+# 				runme("""say "I am glad to hear that you are doing well, Dave." using "Alex" speaking rate 185 modulation 15 pitch 37""")
+# 				print "Listening..."
+# 				with sr.Microphone() as source:
+# 					answer = r.listen(source)
+# 					response = r.recognize(answer)
+# 				print "Analyzing Response..."
+			if "not good" in response or "bad" in response or "not well" in response:
 				print ("Dave: " + response)
 				print "HAL-9000: Look Dave, I can see you're really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over."
-				runme("""say "Look Dave, I can see you're really upset about this. I honestly think you ought to sit down calmly, take uhstress pill, and think things over." using "Alex" speaking rate 180 modulation 10 pitch 38""")
+				play("audio/stresspill2.wav")
 				print "Listening..."
 				with sr.Microphone() as source:
 					answer = r.listen(source)
@@ -148,9 +144,13 @@ while True:
 			break
 		elif "sing" in response: # replace with hals song
 			print ("Dave: " + response)
-			print "HAL-9000: Daisy, Daisy, Give me your answer do! Im half crazy, All for the love of you!"
-			runme("""say "Daisy, Daisy, Give me your answer do! I'm half crazy, All for the love of you!" using "Alex" speaking rate 150 modulation 0 pitch 36""")
-			break
+			print "HAL-9000: Daisy, Daisy..."
+			play("audio/daisy.wav")
+			print "Listening..."
+			with sr.Microphone() as source:
+				answer = r.listen(source)
+				response = r.recognize(answer)
+			print "Analyzing Response..."
 		elif "about" in response:
 			print ("Dave: " + response)
 			print "HAL-9000 begins to tell you about itself..." #Future transcript
@@ -163,8 +163,7 @@ while True:
 
 		else: # if any of the conditions above are not met, except if speech is unintelligable
 			print ("Dave: " + response)
-			print "HAL-9000: Im sorry Dave. I did not catch that. What did you say?"
-			runme("""say "I'm sorry Dave. I did not catch that. What did you say?" using "Alex" speaking rate 185 modulation 15 pitch 37""")
+			print "HAL-9000: Im sorry Dave. I didn't catch that. What did you say?"
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
@@ -178,5 +177,4 @@ while True:
 print "HAL-9000: This conversation can serve no purpose anymore. Goodbye."
 play("audio/Good_Bye_1_.wav")
 
-print user_log
 
