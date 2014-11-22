@@ -1,7 +1,7 @@
 PyHAL
 =====
 
-HAL-9000 Speech Simulator [written by Jordan Facibene]
+HAL-9000 Speech Simulator
 
 Required External Modules
 =====
