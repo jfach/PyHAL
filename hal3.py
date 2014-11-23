@@ -3,8 +3,18 @@ import pyaudio
 import wave
 import sys
 import speech_recognition as sr
-import os
 from subprocess import Popen, PIPE
+
+print ""
+print ""
+print ""
+print ""
+print ""  # clear some space for the program
+print ""
+print ""
+print ""
+print ""
+print ""
 
 version = "0.4"
 osa = ""
@@ -58,7 +68,7 @@ def show_about():
 	print "- 0.2.1.1: RandInt for Variety. Added/edited phrases"
 	print "- 0.3: Removed Mac OS X Dependency. Added More Audio."
 	print "- 0.4: Added Menu\n"
-	start()
+	start_menu()
 
 def show_help():
 	print ""
@@ -67,7 +77,7 @@ def show_help():
 	print "1. Talk to HAL using your voice."
 	print "2. When you see 'Listening...', thats your cue to start speaking."
 	print "3. To exit the program, simply say 'bye' or 'exit'.\n"
-	start()
+	start_menu()
 
 def show_setup():
 	print "Turn on Apple Script Voices? (Mac OS X Only)"
@@ -84,9 +94,9 @@ def show_setup():
 		else:
 			print "Apple Script Voices OFF\n"
 	print ""
-	start()
+	start_menu()
 
-def start():
+def start_menu():
 	print('[A]bout | [H]elp | [Q]uit | [R]un | [S]etup')
 	start_sequence = raw_input('> ')
 	print "\n"
@@ -103,37 +113,31 @@ def start():
 	else:
 		print "Invalid Selection!\a"
 		print "(Enter A, H, Q, R, or S)\n"
-		start()
+		start_menu()
 
 print "<=====> PyHAL-9000 %r <======>" % version
 play("audio/moment.wav")
 print ""
 raw_input('Press <ENTER> to continue')
-print
+print ""
+start_menu()
 
-start()
-
-
-
-
-user_log = []
-
-print "HAL-9000: Hello, Dave."
+print "HAL-9000: Hello, Dave.\n"
 if osa.lower() == "on":
 	runme("""say "Hello Dave." using "Alex" speaking rate 150 modulation 25 pitch 38""")
-print "Listening..."
+print "Listening...\n"
 while True:
 	try:
 		with sr.Microphone() as source:
 			answer = r.listen(source)
 			response = r.recognize(answer)
-		print "Analyzing Response..."
+		print "Analyzing Response...\n"
 
 		if "pod bay" in response or "pod" in response:
 			print ("Dave: " + response)
 			print "HAL-9000: I'm sorry Dave. I'm afraid I can't do that."
 			play("audio/cantdo.wav")
-			print "Listening..."
+			print "Listening...\n"
 			with sr.Microphone() as source:
 				answer = r.listen(source)
 				response = r.recognize(answer)
@@ -176,15 +180,6 @@ while True:
 				answer = r.listen(source)
 				response = r.recognize(answer)
 			print "Analyzing Response..."
-			# if "am good" in response or "am well" in response:
-# 				print ("Dave: " + response)
-# 				print "HAL-9000: I am glad to hear that you are doing well, Dave."
-# 				runme("""say "I am glad to hear that you are doing well, Dave." using "Alex" speaking rate 185 modulation 15 pitch 37""")
-# 				print "Listening..."
-# 				with sr.Microphone() as source:
-# 					answer = r.listen(source)
-# 					response = r.recognize(answer)
-# 				print "Analyzing Response..."
 			if "not good" in response or "bad" in response or "not well" in response:
 				print ("Dave: " + response)
 				print "HAL-9000: Look Dave, I can see you're really upset about this. I honestly think you ought to sit down calmly, take a stress pill, and think things over."
@@ -194,9 +189,22 @@ while True:
 					answer = r.listen(source)
 					response = r.recognize(answer)
 				print "Analyzing Response..."
-			else:
-				break # add listen()
-
+			elif (osa.lower() == 'on') and ('am good' in response or 'fine' in response):
+					print ("Dave: " + response)
+ 					print "HAL-9000: I am glad to hear that you are doing well, Dave."
+ 					runme("""say "I am glad to hear that you are doing well, Dave." using "Alex" speaking rate 185 modulation 15 pitch 37""")
+ 					print "Listening..."
+ 					with sr.Microphone() as source:
+ 						answer = r.listen(source)
+ 						response = r.recognize(answer)
+ 					print "Analyzing Response..."
+ 			else:
+				print "Design Flaw!"
+				print "Listening..."
+ 				with sr.Microphone() as source:
+ 					answer = r.listen(source)
+ 					response = r.recognize(answer)
+ 				print "Analyzing Response..."
 
 		elif "bye" in response or "exit" in response or "by" in response:
 			print ("Dave: " + response)
