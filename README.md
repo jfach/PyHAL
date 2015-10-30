@@ -24,10 +24,6 @@ General Requirements
 - Microphone
 - Internet Connection
 
-Other Information
-=====
-- Written in Python 2.7.8
-
 Instructions
 =====
 1. Download the project, keeping all directories relative.
