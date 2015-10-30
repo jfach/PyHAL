@@ -236,7 +236,7 @@ while True:
 				answer = r.listen(source)
 				response = r.recognize_google(answer)
 			print "Analyzing Response..."
-	except LookupError:
+	except (LookupError, r.UnknownValueError) as e:
 		print "Could not understand audio, try again...\a"
 		print "Listening..."
 		continue
