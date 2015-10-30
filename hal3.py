@@ -130,7 +130,7 @@ while True:
 	try:
 		with sr.Microphone() as source:
 			answer = r.listen(source)
-			response = r.recognize(answer)
+			response = r.recognize_google(answer)
 		print "Analyzing Response...\n"
 
 		if "pod bay" in response or "pod" in response:
@@ -140,7 +140,7 @@ while True:
 			print "Listening...\n"
 			with sr.Microphone() as source:
 				answer = r.listen(source)
-				response = r.recognize(answer)
+				response = r.recognize_google(answer)
 
 			print "Analyzing Response..."
 			if "emergency airlock" in response or "air locks" in response:
@@ -150,7 +150,7 @@ while True:
 				print "Listening..."
 				with sr.Microphone() as source:
 					answer = r.listen(source)
-					response = r.recognize(answer)
+					response = r.recognize_google(answer)
 				print "Analyzing Response..."
 			elif "why" in response or "why not" in response:
 				print ("Dave: " + response)
@@ -159,7 +159,7 @@ while True:
 				print "Listening..."
 				with sr.Microphone() as source:
 					answer = r.listen(source)
-					response = r.recognize(answer)
+					response = r.recognize_google(answer)
 				print "Analyzing Response..."
 			else:
 				print ("Dave: " + response)
@@ -178,7 +178,7 @@ while True:
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
-				response = r.recognize(answer)
+				response = r.recognize_google(answer)
 			print "Analyzing Response..."
 			if "not good" in response or "bad" in response or "not well" in response:
 				print ("Dave: " + response)
@@ -196,14 +196,14 @@ while True:
  					print "Listening..."
  					with sr.Microphone() as source:
  						answer = r.listen(source)
- 						response = r.recognize(answer)
+ 						response = r.recognize_google(answer)
  					print "Analyzing Response..."
  			else:
 				print "Design Flaw!"
 				print "Listening..."
  				with sr.Microphone() as source:
  					answer = r.listen(source)
- 					response = r.recognize(answer)
+ 					response = r.recognize_google(answer)
  				print "Analyzing Response..."
 
 		elif "bye" in response or "exit" in response or "by" in response:
@@ -216,7 +216,7 @@ while True:
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
-				response = r.recognize(answer)
+				response = r.recognize_google(answer)
 			print "Analyzing Response..."
 		elif "about" in response:
 			print ("Dave: " + response)
@@ -225,7 +225,7 @@ while True:
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
-				response = r.recognize(answer)
+				response = r.recognize_google(answer)
 			print "Analyzing Response..."
 
 		else: # if any of the conditions above are not met, except if speech is unintelligable
@@ -234,9 +234,9 @@ while True:
 			print "Listening..."
 			with sr.Microphone() as source:
 				answer = r.listen(source)
-				response = r.recognize(answer)
+				response = r.recognize_google(answer)
 			print "Analyzing Response..."
-	except LookupError:
+	except (LookupError, sr.UnknownValueError) as e:
 		print "Could not understand audio, try again...\a"
 		print "Listening..."
 		continue
