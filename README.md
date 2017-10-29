@@ -20,7 +20,7 @@ For example:
 
 General Requirements
 =====
-- Python
+- Python 2.7
 - Microphone
 - Internet Connection
 
