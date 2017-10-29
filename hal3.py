@@ -136,7 +136,10 @@ start_menu()
 print "HAL-9000: Hello, Dave.\n"
 if osa.lower() == "on":
 	runme("""say "Hello Dave." using "Alex" speaking rate 150 modulation 25 pitch 38""")
+<<<<<<< HEAD
 
+=======
+>>>>>>> 66b7226da77c20920d8af0c1207984ad0acd5600
 speech_input_text = listen()
 while True:
 	try:
